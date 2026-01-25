@@ -1,12 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\AuthController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/', function () {
-    return view('hello');
+    return view('login');
 });
 Route::get('/test', function () {
     return response()->json("Helloworld");
@@ -14,15 +16,15 @@ Route::get('/test', function () {
 
 
 Route::prefix('product')->group(function () {
-    Route::get('/', function () {
-        return view('product.index');
+    Route::controller(ProductController::class)->group(function (){
+        Route::get('/', 'index');
+        Route::get('/add', 'create')->name('add');
+        Route::get('/detail/{id?}', 'getDetail');
+        Route::post('/store', 'store');
     });
-    Route::get('/add', function () {
-        return view('product.add');
-    })->name('add');
-    Route::get('/{id?}', function (?string $id = "123") {
-        return view('product.productDetail', ['id' => $id]);
-    });
+    // Route::get('/', [ProductController::class, "index"]);
+    // Route::get('/add', [ProductController::class, "create"])->name('add');
+    // Route::get('/detail/{id?}',  [ProductController::class, "getDetail"]);
 });
 Route::fallback(function () {
     return view('error.404');
@@ -51,5 +53,15 @@ Route::get('/banco/{n}', function ($n) {
     ]);
 });
 
+
+//lam đăng nhập, đăng ký
+Route::prefix('auth')->group(function () {
+    Route::controller(AuthController::class)->group(function (){
+        Route::post('/checkLogin', 'checkLogin');
+        Route::get('/login', 'login');
+        Route::get('/register', 'register');
+        Route::post('/checkRegister', 'checkRegister');
+    });
+});
 
 

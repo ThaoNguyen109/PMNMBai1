@@ -6,19 +6,22 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>product</h1>
+    <h1>{{ $title }}</h1>
     <a href="/product/add">Add Product</a>
     <table border="1">
         <tr>
             <th>ID</th>
-            <th>Name</th>
+            <th>name</th>
             <th>Price</th>
         </tr>
-        <tr>
-            <td>1</td>
-            <td>Sample Product</td>
-            <td>100</td>
-        </tr>
+        @foreach ($products as $product)
+            <tr>
+                <td>{{ $product['id']}} </td>
+                <td>{{ $product['name']}} </td>
+                <td>{{ $product['price']}} </td>
+            </tr>
+        @endforeach
+    </table>
         
 </body>
 </html>
