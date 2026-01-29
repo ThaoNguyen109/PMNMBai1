@@ -10,6 +10,7 @@ Route::get('/', function () {
 Route::get('/', function () {
     return view('login');
 });
+
 Route::get('/test', function () {
     return response()->json("Helloworld");
 });
@@ -64,5 +65,20 @@ Route::prefix('auth')->group(function () {
         Route::post('/checkRegister', 'checkRegister');
     });
 });
+//tuoi
+Route::get('/age', function () {
+    return view('age');
+});
+
+use Illuminate\Http\Request;
+Route::post('/save-age', function (Request $request) {
+    session(['age' => $request->input('age')]);
+    return redirect('/hello');
+});
+Route::get('/hello', function () {
+    return view('hello');
+})->middleware([App\Http\Middleware\CheckAge::class]);
+
+
 
 
