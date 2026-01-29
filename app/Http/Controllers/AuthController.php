@@ -29,11 +29,13 @@ class AuthController extends Controller
     {
         $username = $request->input('username');
         $password = $request->input('password');
+        $mssv = $request->input('mssv');
+        $lopMonHoc = $request->input('lopMonHoc');
         $confirmPassword = $request->input('password_confirm');
-        if ($password === $confirmPassword) {
+        if ($password === $confirmPassword && $username === "thao" && $mssv === "0149267" && $lopMonHoc === "67PM1" ) {
             return "Đăng ký thành công";
         } else {
-            return "Mật khẩu không khớp";
+            return "Dăng ký thất bại, vui lòng thử lại.";
         }
     }
 }

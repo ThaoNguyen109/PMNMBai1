@@ -14,16 +14,17 @@ Route::get('/test', function () {
     return response()->json("Helloworld");
 });
 
-
 Route::prefix('product')->group(function () {
     Route::controller(ProductController::class)->group(function (){
+        // Route::get('/', 'index')->middleware([checkTimeAccess::class]);
         Route::get('/', 'index');
         Route::get('/add', 'create')->name('add');
         Route::get('/detail/{id?}', 'getDetail');
         Route::post('/store', 'store');
+        Route::get('/{id?}', 'edit');
     });
     // Route::get('/', [ProductController::class, "index"]);
-    // Route::get('/add', [ProductController::class, "create"])->name('add');
+    // Route::get('/add', [ProductController::class, "create   "])->name('add');
     // Route::get('/detail/{id?}',  [ProductController::class, "getDetail"]);
 });
 Route::fallback(function () {

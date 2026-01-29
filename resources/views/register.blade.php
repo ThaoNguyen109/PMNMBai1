@@ -88,6 +88,8 @@
             <input type="text" name="username" placeholder="Tên đăng nhập">
             <input type="password" name="password" placeholder="Mật khẩu">
             <input type="password" name="password_confirm" placeholder="Nhập lại mật khẩu">
+            <input type="text" name="mssv" placeholder="MSSV">
+            <input type="text" name="lopMonHoc" placeholder="Lớp môn học">
 
             <button type="submit">Đăng ký</button>
         </form>

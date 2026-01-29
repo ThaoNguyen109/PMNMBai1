@@ -10,6 +10,7 @@
         @csrf
         <input type="text" name="name" placeholder="Product Name">
         <input type="number" name="price" placeholder="Product Price">
+        <input type="number" name="stock" placeholder="Product Stock">
         <button type="submit">Add Product</button>
     </form>
 </body>
