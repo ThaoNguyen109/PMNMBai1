@@ -13,14 +13,21 @@ class AuthController extends Controller
     }
     public function checkLogin(Request $request)
     {
-        $username = $request->input('username');
-        $password = $request->input('password');
-        if ($username === 'thao' && $password === '10092004') {
-            return "Login successful!";
-        } else {
-            return "Invalid credentials.";
-        }
+        $account = $request->only('email', 'password');
+        if(Auth::attempt($account)){
+            return redirect('/admin');
+        };
+        return redirect('/login')->with('error','Tk k dung');
+        // $username = $request->input('username');
+        // $password = $request->input('password');
+        // if ($username === 'thao' && $password === '10092004') {
+        //     return "Login successful!";
+        // } else {
+        //     return "Invalid credentials.";
+        // }
     }
+    //logout
+
     public function register()
     {
         return view('register');

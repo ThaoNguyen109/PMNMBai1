@@ -39,8 +39,9 @@ class ProductController extends Controller
     // }
     public function index()
     {
+
         $product = Product::all();
-        return view('product.index', ['products' => $product]);
+        return view('admin.product.index', ['products' => $product]);
     }
     public function create()
     {

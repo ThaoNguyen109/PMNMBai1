@@ -24,9 +24,7 @@ Route::prefix('product')->group(function () {
         Route::post('/store', 'store');
         Route::get('/{id?}', 'edit');
     });
-    // Route::get('/', [ProductController::class, "index"]);
-    // Route::get('/add', [ProductController::class, "create   "])->name('add');
-    // Route::get('/detail/{id?}',  [ProductController::class, "getDetail"]);
+    
 });
 Route::fallback(function () {
     return view('error.404');
@@ -79,6 +77,22 @@ Route::get('/hello', function () {
     return view('hello');
 })->middleware([App\Http\Middleware\CheckAge::class]);
 
+Route::resource('products', ProductController::class);
 
+Route::get('/admin', function () {
+    return view('layout.admin');
+});
+
+use App\Http\Controllers\CategoryController;
+Route::prefix('/admin/categories')->group(function () {
+    Route::controller(CategoryController::class)->group(function () {
+        Route::get('/', 'index');              // danh sách category
+        Route::get('/add', 'create')->name('category.add');
+        Route::post('/store', 'store');        // lưu category
+        Route::get('/{id}', 'edit');            // form sửa
+        Route::post('/{id}/update', 'update');        // lưu category sửa
+        Route::post('/{id}/delete', 'destroy');        // xóa category
+    });
+});
 
 
