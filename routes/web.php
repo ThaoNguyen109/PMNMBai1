@@ -15,17 +15,7 @@ Route::get('/test', function () {
     return response()->json("Helloworld");
 });
 
-Route::prefix('product')->group(function () {
-    Route::controller(ProductController::class)->group(function (){
-        // Route::get('/', 'index')->middleware([checkTimeAccess::class]);
-        Route::get('/', 'index');
-        Route::get('/add', 'create')->name('add');
-        Route::get('/detail/{id?}', 'getDetail');
-        Route::post('/store', 'store');
-        Route::get('/{id?}', 'edit');
-    });
-    
-});
+
 Route::fallback(function () {
     return view('error.404');
 });
@@ -87,7 +77,7 @@ use App\Http\Controllers\CategoryController;
 Route::prefix('/admin/categories')->group(function () {
     Route::controller(CategoryController::class)->group(function () {
         Route::get('/', 'index');              // danh sách category
-        Route::get('/add', 'create')->name('category.add');
+        Route::get('/create', 'create')->name('category.add');
         Route::post('/store', 'store');        // lưu category
         Route::get('/{id}', 'edit');            // form sửa
         Route::post('/{id}/update', 'update');        // lưu category sửa
@@ -95,4 +85,16 @@ Route::prefix('/admin/categories')->group(function () {
     });
 });
 
-
+Route::prefix('admin/products')->group(function () {
+    Route::controller(ProductController::class)->group(function (){
+        // Route::get('/', 'index')->middleware([checkTimeAccess::class]);
+        Route::get('/', 'index');
+        Route::get('/create', 'create')->name('add');
+        Route::get('/detail/{id?}', 'getDetail');
+        Route::post('/store', 'store');
+        Route::get('/{id?}/edit', 'edit');
+        Route::post('/{id?}/update', 'update');
+        Route::post('/{id?}/delete', 'destroy');
+    });
+    
+});

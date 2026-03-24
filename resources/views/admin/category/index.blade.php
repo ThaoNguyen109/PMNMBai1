@@ -24,7 +24,7 @@
                 <td>{{ $category->description }}</td>
 
                 <td>
-                    {{ $category->parent_id }}
+                    {{ $category->parent->name ?? 'Không có' }}
                 </td>
 
                 <td>

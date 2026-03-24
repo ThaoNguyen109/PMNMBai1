@@ -31,16 +31,31 @@ class CategoryController extends Controller
     public function edit(string $id)
     {
         $category = Category::findOrFail($id);
-        return view('admin.category.edit', ['category' => $category]);
+
+        $categories = Category::where('id', '!=', $id)
+            ->where('is_delete', 0)
+            ->get();
+
+        return view('admin.category.edit', compact('category', 'categories'));
     }
 
     public function update(Request $request, string $id)
     {
         $category = Category::findOrFail($id);
+
+        $parentId = $request->parent_id;
+
+        if ($this->wouldCreateCycle($parentId, $category)) {
+            return back()
+                ->withErrors(['parent_id' => 'Không thể chọn danh mục cha không hợp lệ'])
+                ->withInput();
+        }
+
         $category->name = $request->name;
         $category->description = $request->description;
-        $category->parent_id = $request->parent_id;
+        $category->parent_id = $parentId ?: null;
         $category->is_active = $request->is_active ?? 1;
+
         $category->save();
 
         return redirect('/admin/categories');
@@ -53,5 +68,22 @@ class CategoryController extends Controller
         $category->is_delete = 1;
         $category->save(); 
         return redirect('/admin/categories');
+    }
+    private function wouldCreateCycle($parentId, $category)
+    {
+        if (!$parentId) return false;
+
+        if ($parentId == $category->id) return true;
+
+        $current = Category::find($parentId);
+
+        while ($current) {
+            if ($current->id == $category->id) {
+                return true;
+            }
+            $current = $current->parent; // đi ngược lên cha
+        }
+
+        return false;
     }
 }
